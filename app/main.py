@@ -82,7 +82,7 @@ def create_app(settings: Settings | None = None, llm=None) -> FastAPI:
 
     @app.get("/healthz")
     async def healthz():
-        return {"status": "ok", "version": __version__, "model": settings.gemini_model}
+        return {"status": "ok", "version": __version__, "models": settings.model_chain}
 
     @app.get("/.well-known/agent-card.json")
     async def agent_card(request: Request):
@@ -157,7 +157,8 @@ def create_app(settings: Settings | None = None, llm=None) -> FastAPI:
                 latency_ms=round((time.perf_counter() - started) * 1000),
                 input_tokens=result.input_tokens if result else 0,
                 output_tokens=result.output_tokens if result else 0,
-                model=settings.gemini_model, question=question, error=error)
+                model=(result.model if result and result.model else settings.gemini_model),
+                question=question, error=error)
 
         if not stream:
             try:

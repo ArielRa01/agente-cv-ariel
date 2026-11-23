@@ -9,7 +9,8 @@ DEFAULT_KNOWLEDGE_DIR = str(Path(__file__).resolve().parent.parent / "knowledge"
 @dataclass(frozen=True)
 class Settings:
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-3.8-flash"     # versión fija: un alias puede cambiar sin aviso
+    gemini_model: str = "gemini-3.5-flash"     # versión fija: un alias puede cambiar sin aviso
+    gemini_fallback_models: str = "gemini-3.8-flash"   # separados por coma; se usan ante 429/5xx
     gemini_api_version: str = "v1beta"
     agent_api_key: str = ""
     contact_phone: str = ""
@@ -29,6 +30,7 @@ class Settings:
             gemini_api_key=e("GEMINI_API_KEY", ""),
             gemini_model=e("GEMINI_MODEL", cls.gemini_model),
             gemini_api_version=e("GEMINI_API_VERSION", cls.gemini_api_version),
+            gemini_fallback_models=e("GEMINI_FALLBACK_MODELS", cls.gemini_fallback_models),
             agent_api_key=e("AGENT_API_KEY", ""),
             contact_phone=e("CONTACT_PHONE", ""),
             agent_name=e("AGENT_NAME", cls.agent_name),
@@ -40,3 +42,9 @@ class Settings:
             rate_limit_per_minute=int(e("RATE_LIMIT_PER_MINUTE", cls.rate_limit_per_minute)),
             knowledge_dir=e("KNOWLEDGE_DIR", DEFAULT_KNOWLEDGE_DIR),
         )
+
+    @property
+    def model_chain(self) -> list[str]:
+        """Modelo principal seguido de los de respaldo, sin duplicados."""
+        chain = [self.gemini_model] + [m.strip() for m in self.gemini_fallback_models.split(",")]
+        return list(dict.fromkeys(m for m in chain if m))
