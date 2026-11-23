@@ -68,7 +68,7 @@ def create_app(settings: Settings | None = None, llm=None) -> FastAPI:
         CORSMiddleware,
         allow_origins=["*"],
         allow_methods=["GET", "POST", "OPTIONS"],
-        allow_headers=["Authorization", "Content-Type"],
+        allow_headers=["*"],
         allow_credentials=False,
         max_age=3600,
     )
