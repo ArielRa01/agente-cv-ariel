@@ -35,7 +35,11 @@ class GeminiLLM:
             if not self.settings.gemini_api_key:
                 raise RuntimeError("Falta la variable GEMINI_API_KEY")
             from google import genai
-            self._client = genai.Client(api_key=self.settings.gemini_api_key)
+            from google.genai import types
+            self._client = genai.Client(
+                api_key=self.settings.gemini_api_key,
+                http_options=types.HttpOptions(api_version=self.settings.gemini_api_version),
+            )
         return self._client
 
     def _config(self, system: str):

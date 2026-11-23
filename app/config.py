@@ -9,7 +9,8 @@ DEFAULT_KNOWLEDGE_DIR = str(Path(__file__).resolve().parent.parent / "knowledge"
 @dataclass(frozen=True)
 class Settings:
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-flash-latest"
+    gemini_model: str = "gemini-3.8-flash"     # versión fija: un alias puede cambiar sin aviso
+    gemini_api_version: str = "v1beta"
     agent_api_key: str = ""
     contact_phone: str = ""
     agent_name: str = "ariel-cv-agent"
@@ -27,6 +28,7 @@ class Settings:
         return cls(
             gemini_api_key=e("GEMINI_API_KEY", ""),
             gemini_model=e("GEMINI_MODEL", cls.gemini_model),
+            gemini_api_version=e("GEMINI_API_VERSION", cls.gemini_api_version),
             agent_api_key=e("AGENT_API_KEY", ""),
             contact_phone=e("CONTACT_PHONE", ""),
             agent_name=e("AGENT_NAME", cls.agent_name),
