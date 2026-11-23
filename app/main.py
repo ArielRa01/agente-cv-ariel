@@ -5,6 +5,7 @@ import time
 from collections import defaultdict, deque
 
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from . import __version__
@@ -61,6 +62,16 @@ def create_app(settings: Settings | None = None, llm=None) -> FastAPI:
     limiter = RateLimiter(settings.rate_limit_per_minute)
 
     app = FastAPI(title=AGENT_DISPLAY_NAME, version=__version__)
+    # CORS: permite clientes de navegador (p. ej. el probador oficial de Open Responses).
+    # Es seguro con "*" porque la autenticación es por header Bearer, no por cookies.
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=["Authorization", "Content-Type"],
+        allow_credentials=False,
+        max_age=3600,
+    )
 
     def client_ip(request: Request) -> str:
         xff = request.headers.get("x-forwarded-for")
@@ -80,8 +91,10 @@ def create_app(settings: Settings | None = None, llm=None) -> FastAPI:
         host = request.headers.get("host", request.url.netloc)
         return f"{proto}://{host}"
 
-    @app.get("/healthz")
-    async def healthz():
+    # Cloud Run reserva las rutas que terminan en "z" (/healthz); /health es la pública.
+    @app.get("/health")
+    @app.get("/healthz", include_in_schema=False)
+    async def health():
         return {"status": "ok", "version": __version__, "models": settings.model_chain}
 
     @app.get("/.well-known/agent-card.json")

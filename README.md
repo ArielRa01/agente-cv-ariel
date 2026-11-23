@@ -17,7 +17,7 @@ scripts/      smoke_test.sh para validar un despliegue
 |---|---|---|
 | POST | `/v1/responses` | Open Responses (JSON o `stream: true` con SSE) |
 | GET | `/.well-known/agent-card.json` | Tarjeta de agente A2A |
-| GET | `/healthz` | Salud del servicio |
+| GET | `/health` | Salud del servicio |
 
 ## Pruebas locales
 ```bash

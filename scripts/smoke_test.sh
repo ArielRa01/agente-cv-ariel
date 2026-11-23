@@ -2,7 +2,7 @@
 # Uso: BASE_URL=http://localhost:8080 AGENT_API_KEY=xxx ./scripts/smoke_test.sh
 set -euo pipefail
 : "${BASE_URL:?Define BASE_URL}"; : "${AGENT_API_KEY:?Define AGENT_API_KEY}"
-echo "== healthz";     curl -s "$BASE_URL/healthz"; echo
+echo "== health";      curl -s "$BASE_URL/health"; echo
 echo "== agent card";  curl -s "$BASE_URL/.well-known/agent-card.json" | head -c 300; echo; echo
 echo "== respuesta (sin streaming)"
 curl -s -X POST "$BASE_URL/v1/responses" \

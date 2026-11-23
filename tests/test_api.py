@@ -57,9 +57,21 @@ def parse_sse(raw: str):
 
 # --- Salud y autenticación -------------------------------------------------
 
-def test_healthz():
+@pytest.mark.parametrize("ruta", ["/health", "/healthz"])
+def test_health(ruta):
     client, _ = make_client()
-    assert client.get("/healthz").json()["status"] == "ok"
+    assert client.get(ruta).json()["status"] == "ok"
+
+
+def test_cors_preflight_para_clientes_de_navegador():
+    client, _ = make_client()
+    r = client.options("/v1/responses", headers={
+        "Origin": "https://www.openresponses.org",
+        "Access-Control-Request-Method": "POST",
+        "Access-Control-Request-Headers": "authorization,content-type"})
+    assert r.status_code == 200
+    assert r.headers["access-control-allow-origin"] == "*"
+    assert "authorization" in r.headers["access-control-allow-headers"].lower()
 
 
 @pytest.mark.parametrize("headers", [{}, {"Authorization": "Bearer otra"}, {"Authorization": API_KEY}])
