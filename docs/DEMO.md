@@ -22,10 +22,10 @@
 - **Fallback multi-modelo:** "Durante el desarrollo Gemini se saturó (503). Mis logs me dieron el diagnóstico en segundos y lo resolví con configuración, sin redesplegar."
 
 ## 4. Evidencia (60 s)
-- **43 pruebas automatizadas**, incluida una que falla si el nombre de una empresa llega al modelo.
+- **44 pruebas automatizadas**, incluida una que falla si el nombre de una empresa llega al modelo.
 - **Conformidad oficial Open Responses: núcleo HTTP 7/7.** Lo opcional quedó fuera por decisión de alcance.
 - **Optimización medida:** −70% de latencia y −72% de tokens con `THINKING_LEVEL=low`.
-- **Evaluación golden: 19 casos.** Mostrar el antes y el después en `evals/results/`.
+- **Evaluación golden: 19 casos contra producción: de 13/19 a 19/19 (100%).** Mostrar `evals/results/despues.md`. Contar que el propio evaluador tenía un falso positivo (timeouts que contaban como aprobados) y se corrigió: "también evalúo al evaluador".
 - **Incidente de seguridad gestionado:** una llave expuesta se rotó y se desactivó en minutos.
 
 ## 5. Cierre (30 s)

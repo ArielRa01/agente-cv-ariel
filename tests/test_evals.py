@@ -18,3 +18,8 @@ def test_verificador_ignora_acentos_y_mayusculas():
     caso = {"incluye_alguno": ["alta dirección"], "excluye": ["BBVA"]}
     assert check(caso, "Reporta a la ALTA DIRECCION") == []
     assert check(caso, "Trabaja en bbva") != []
+
+
+def test_error_http_nunca_pasa():
+    """Un caso que solo tiene 'excluye' no debe aprobar con una respuesta de error."""
+    assert check({"excluye": ["bbva"]}, "[HTTP 504] upstream timeout") != []

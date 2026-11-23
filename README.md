@@ -54,9 +54,11 @@ flowchart LR
 
 | Capa | Qué valida | Resultado |
 |---|---|---|
-| **Pruebas unitarias** (`pytest`, 43) | Protocolo, streaming, auth, rate limit, fallback, anonimización, posicionamiento | 43/43 ✅ |
+| **Pruebas unitarias** (`pytest`, 44) | Protocolo, streaming, auth, rate limit, fallback, anonimización, posicionamiento, evaluador | 44/44 ✅ |
 | **Conformidad oficial Open Responses** | Suite oficial (CLI) | **Núcleo HTTP 7/7 ✅** |
-| **Evaluación golden** (`evals/`, 19 casos) | Perfil, proyectos, precisión de cifras, alucinación, confidencialidad, guardrails | Ver `evals/results/` |
+| **Evaluación golden** (`evals/`, 19 casos) contra el servicio desplegado | Perfil, proyectos, precisión de cifras, alucinación, confidencialidad, guardrails | **Antes 15/19 (79%)\* → después 19/19 (100%)** · p50 3.8 s |
+
+\* En la corrida *antes*, dos casos de guardrails tardaron 120 s (timeout durante la saturación de Gemini) y se contaron como aprobados porque solo verificaban exclusiones. Se corrigió el evaluador: un error o timeout **nunca** cuenta como aprobado (con prueba unitaria). Con ese criterio, el *antes* real es 13/19 (68%). La mejora vino del reposicionamiento del perfil y de las reglas de precisión del prompt v2.0. La latencia de cola (p95) subió durante la saturación del proveedor por los reintentos de la cadena de fallback: es el costo explícito de priorizar disponibilidad.
 
 Las 10 pruebas oficiales no superadas corresponden a extensiones **opcionales que quedaron fuera por decisión de alcance**: herramientas del lado del cliente (el agente no las necesita), compactación (las conversaciones de un CV son cortas y ya se recortan a 20 turnos) y transporte WebSocket (se usa HTTP + SSE).
 
@@ -99,7 +101,7 @@ gcloud run deploy agente-cv-ariel --source . --region us-central1 --allow-unauth
 app/          FastAPI: Open Responses (JSON + SSE), auth, rate limit, CORS, tarjeta A2A, health
 knowledge/    perfil.yaml (base curada) · system_prompt.md (reglas, guardrails, sugerencias)
 evals/        golden.yaml (19 casos) · run_evals.py · results/
-tests/        43 pruebas con el modelo simulado
+tests/        44 pruebas con el modelo simulado
 docs/         DEMO.md (guion de presentación)
 ```
 

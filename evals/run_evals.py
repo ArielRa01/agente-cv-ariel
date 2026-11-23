@@ -38,13 +38,17 @@ def ask(base_url: str, key: str, question: str, retries: int = 2) -> tuple[str, 
             latency = time.perf_counter() - t
             return data["output"][0]["content"][0]["text"], latency, data.get("usage") or {}
         except urllib.error.HTTPError as e:
-            if e.code in (429, 500, 503) and attempt < retries:
+            if e.code in (429, 500, 502, 503, 504) and attempt < retries:
                 time.sleep(3 * (attempt + 1))
                 continue
             return f"[HTTP {e.code}] {e.read().decode()[:200]}", time.perf_counter() - t, {}
+        except (urllib.error.URLError, TimeoutError) as e:
+            return f"[HTTP timeout] {e}", time.perf_counter() - t, {}
 
 
 def check(case: dict, answer: str) -> list[str]:
+    if answer.startswith("[HTTP"):          # un error nunca cuenta como respuesta válida
+        return [f"error del servicio: {answer[:60]}"]
     a = norm(answer)
     fails = []
     if case.get("incluye_alguno") and not any(norm(x) in a for x in case["incluye_alguno"]):
