@@ -1,68 +1,71 @@
 # =====================================================================
 # Base de conocimiento — Agente de CV de Ariel Ramos Jiménez
-# Versión: 1.0  ·  Fecha: 2026-11-23
+# Versión: 2.0  ·  Fecha: 2026-11-23
+# Posicionamiento: liderazgo senior en Data & IA Generativa.
 # Regla de contenido: solo hechos verificables. Cada bloque lleva "fuente".
-# Regla de anonimización: no se nombran empresas empleadoras; se describen
-# por sector, escala y geografía. Se conservan: marca propia (TalysIA),
-# instituciones académicas y emisores de certificaciones.
+# Regla de anonimización: no se nombran empresas ni marcas; se describen
+# por sector, escala y geografía. Se conservan instituciones académicas y
+# emisores de certificaciones.
 # El teléfono NO vive aquí: se inyecta en tiempo de ejecución desde la
-# variable secreta CONTACT_PHONE (Cloud Run / Secret Manager).
+# variable secreta CONTACT_PHONE (Secret Manager).
 # =====================================================================
 
 meta:
-  version: "1.0"
+  version: "2.0"
   actualizado: "2026-11-23"
   idioma: "es"
 
 identidad:
   nombre: "Ariel Ramos Jiménez"
-  titular: "Senior Data & AI Manager · Liderazgo y Estrategia · Innovación y Transformación · AI Wizard"
+  titular: "Data & AI Manager · Líder de IA Generativa y Analítica Avanzada · AI Wizard designado por un grupo financiero global"
   ubicacion: "Ciudad de México, México"
-  anios_experiencia: "Más de 10 años (desde diciembre de 2015)"
-  idiomas: ["Español", "Inglés"]
+  anios_experiencia: "Más de 10 años (desde diciembre de 2015) en analítica avanzada, ciencia de datos, automatización inteligente e IA generativa"
+  idiomas: ["Español (nativo)", "Inglés"]
+  dedicacion: "Su rol corporativo es su dedicación principal y busca su siguiente reto en un rol de liderazgo corporativo de tiempo completo. La asesoría, la docencia y el voluntariado son actividades complementarias y acotadas."
+  roles_objetivo: ["Data & AI Manager", "Head of Data & Analytics", "Lead AI Solutions", "Líder técnico de IA Generativa"]
   contacto:
     correo: "arielrajmz@gmail.com"
     linkedin: "linkedin.com/in/arielramosanalytics"
-    sitio_web: "talysai.com"
     telefono: "{{CONTACT_PHONE}}"   # se reemplaza en runtime; nunca en el repo
 
 resumen_profesional: >
-  Líder de Datos e IA con más de 10 años de experiencia llevando a producción
-  soluciones de analítica avanzada, automatización inteligente e IA generativa
-  en organizaciones de gran escala y alta regulación. Designado formalmente
-  como "AI Wizard" por un grupo financiero global, figura estratégica en la
-  adopción de GenAI, el cambio cultural y la definición de casos de uso de alto
-  impacto en Regulación y Control Interno. Combina visión de negocio con
-  capacidad de construir: diseña, programa, despliega y opera. Coordina con un
-  holding corporativo internacional y con 18 unidades de negocio. Además es
-  co-fundador de una consultora de IA, docente de IA Generativa en programas
-  ejecutivos y Co-Chief Data Officer voluntario en una organización
-  internacional con 13 sedes en 4 regiones.
+  Líder de Data & IA con más de 10 años llevando analítica avanzada,
+  automatización inteligente e IA generativa a producción en organizaciones de
+  gran escala y alta regulación. Desde 2023 es Data & AI Manager en un banco
+  global, donde el grupo lo designó formalmente "AI Wizard": figura estratégica
+  para la adopción de GenAI, el cambio cultural y la definición de casos de uso
+  de alto impacto. Dirige un portafolio de soluciones de datos e IA para las 18
+  unidades del banco, coordina con el holding corporativo internacional y
+  reporta a la Alta Dirección. Combina visión estratégica con ejecución
+  técnica: diseña, construye, despliega y opera soluciones de IA con Python,
+  SQL y cloud, y forma equipos para adoptarlas.
 
 propuesta_de_valor:
-  - "Convierte problemas operativos en productos de datos e IA en producción, no en pilotos."
-  - "Habla el idioma de la Alta Dirección (impacto, riesgo, KPIs) y el de ingeniería (Python, SQL, cloud)."
-  - "Experiencia en entornos regulados: trazabilidad, control de accesos y gobierno de datos por diseño."
-  - "Multiplicador de adopción: capacita, documenta y crea cultura de IA."
+  - "Lleva la IA generativa de la idea a producción en entornos regulados, no se queda en pilotos."
+  - "Habla el idioma de la Alta Dirección (impacto, riesgo, KPIs) y el de ingeniería (Python, SQL, cloud, APIs)."
+  - "Construye con gobierno de datos, trazabilidad y control de accesos desde el diseño."
+  - "Multiplica la adopción de IA: capacita, documenta y crea cultura en equipos y unidades de negocio."
 
 # ---------------------------------------------------------------------
-# EXPERIENCIA
+# EXPERIENCIA PRINCIPAL
 # ---------------------------------------------------------------------
 experiencia:
 
-  - id: exp_banco_control
-    rol: "NFR Internal Control Data Discipline Manager · AI Wizard"
+  - id: exp_banco_ia
+    rol: "Data & AI Manager · AI Wizard"
+    titulo_interno: "NFR Internal Control Data Discipline Manager"   # mencionarlo solo si lo preguntan
     organizacion: "Banco global de gran escala (sector financiero regulado), filial México"
     periodo: "Enero 2023 – Presente"
     fuente: "Rol actual, 2023–presente"
-    alcance: "18 unidades de negocio; coordinación con holding corporativo internacional; reporte periódico a Alta Dirección"
+    alcance: "Portafolio de datos e IA para 18 unidades de negocio; coordinación con el holding corporativo internacional; reporte periódico a Alta Dirección"
     logros:
-      - "Diseñó y lideró un portafolio de innovación para las 18 unidades del banco desde Control Interno No Financiero, combinando quick wins con iniciativas estratégicas (pérdidas operacionales, apetitos de riesgo, tableros de incentivación)."
-      - "Construyó una plataforma centralizada de web apps (Google Apps Script + Workspace) con control de accesos por perfil: la Alta Dirección pasó de reportes con días de retraso a visibilidad ejecutiva en tiempo real."
-      - "Como AI Wizard designado por el grupo, creó agentes de IA generativa para validación automática de calidad de datos, generación de reportes regulatorios y detección de anomalías en bases de riesgos y controles: reducción de hasta 75% en tiempos operativos."
-      - "Lideró capacitaciones, charlas internas y guías corporativas de Prompt Engineering para acelerar la adopción de IA."
-      - "Alineó simultáneamente a 18 unidades y coordinó con el holding internacional para mantener coherencia con la estrategia global."
-    tecnologias: ["GenAI (GPTs/Gems)", "Python", "SQL", "Google Apps Script", "Google Workspace"]
+      - "Designado formalmente AI Wizard por el grupo: referente estratégico para la adopción de IA generativa y la definición de casos de uso de alto impacto."
+      - "Diseñó y llevó a producción agentes de IA generativa (GPTs expertos) combinados con automatizaciones en Python, SQL y Google Apps Script para validación automática de calidad de datos, generación de reportes regulatorios y detección de anomalías: reducción de hasta 75% en los tiempos operativos de esos procesos y liberación de capacidad operativa (FTEs) para reenfocar a los equipos en análisis estratégico."
+      - "Dirige un portafolio de soluciones de datos e IA para las 18 unidades del banco, priorizado por impacto: combina quick wins con iniciativas estratégicas de mayor recorrido."
+      - "Construyó una plataforma centralizada de web apps con gobierno de datos y control de accesos por perfil: la Alta Dirección pasó de reportes con días de retraso a visibilidad ejecutiva en tiempo real."
+      - "Lidera la adopción de IA: capacitaciones, charlas internas y guías corporativas de Prompt Engineering."
+      - "Alinea simultáneamente a 18 unidades de negocio y coordina con el holding corporativo internacional para mantener coherencia con la estrategia global del grupo."
+    tecnologias: ["IA generativa (GPTs/Gems)", "Prompt Engineering", "Python", "SQL", "Google Apps Script", "Google Workspace"]
 
   - id: exp_banco_supply
     rol: "Data Mining Analyst — Supply Chain"
@@ -102,57 +105,63 @@ experiencia:
     fuente: "Rol 2015–2017"
     logros:
       - "Automatizó reportes y dashboards a partir del CRM: -30% en tiempo de actualización."
-      - "Mejoró la organización y análisis de datos para decisiones operativas más informadas."
 
-  - id: exp_talysia
-    rol: "Co-Fundador & Data and AI Lead"
-    organizacion: "TalysIA — consultoría de IA, Analytics y Automatización (marca propia)"
-    periodo: "Septiembre 2024 – Presente"
-    fuente: "Emprendimiento propio, 2024–presente"
-    logros:
-      - "Dirige proyectos de analítica avanzada, automatización e IA para clientes de sectores financiero y corporativo, con foco en Pymes y emprendedores."
-      - "Diseña plataformas analíticas a la medida: dashboards ejecutivos, gobierno de datos, KPIs estratégicos y automatización de procesos."
+# ---------------------------------------------------------------------
+# ACTIVIDADES COMPLEMENTARIAS (acotadas; no compiten con el rol principal)
+# ---------------------------------------------------------------------
+actividades_complementarias:
 
-  - id: exp_docencia
-    rol: "Docente de IA Generativa"
-    organizacion: "Escuela de negocios digitales internacional (programas ejecutivos)"
+  - id: comp_docencia
+    rol: "Docente de IA Generativa en programas ejecutivos"
+    organizacion: "Escuela de negocios digitales internacional"
     periodo: "Mayo 2026 – Presente"
     fuente: "Docencia, 2026–presente"
-    logros:
-      - "Facilita programas ejecutivos de aplicación práctica de IA Generativa: adopción estratégica, casos de uso empresariales y Prompt Engineering aplicado."
+    descripcion: "Facilita programas ejecutivos de aplicación práctica de IA Generativa: adopción estratégica, casos de uso empresariales y Prompt Engineering aplicado."
 
-  - id: exp_voluntariado
+  - id: comp_voluntariado
     rol: "Co-Chief Data Officer (voluntario)"
     organizacion: "Organización internacional sin fines de lucro, multi-sede: 13 sedes en México, Latinoamérica, Estados Unidos y Europa"
     periodo: "Agosto 2025 – Presente"
     fuente: "Voluntariado, 2025–presente"
-    logros:
-      - "Co-lidera la estrategia de datos y transformación tecnológica: hoja de ruta de gobierno de datos, automatización e IA para toda la operación."
-      - "Construye y opera las plataformas internas (ver proyectos): +8,500 usuarios activos en la plataforma de programas."
-      - "Es el enlace entre los sistemas técnicos y el liderazgo directivo de la organización."
+    descripcion: "Asesoría voluntaria en estrategia de datos e IA: co-lidera la hoja de ruta de gobierno de datos, automatización e IA, y construye plataformas operativas con +8,500 usuarios activos."
+
+  - id: comp_asesoria
+    rol: "Asesor estratégico en IA y Analítica (proyectos puntuales)"
+    periodo: "Septiembre 2024 – Presente"
+    fuente: "Asesoría independiente, 2024–presente"
+    descripcion: "Asesoría puntual en analítica, automatización e IA para Pymes y emprendedores: dashboards ejecutivos, gobierno de datos y KPIs."
 
 # ---------------------------------------------------------------------
-# PROYECTOS DESTACADOS (formato reto → acción → resultado)
+# PROYECTOS DESTACADOS (reto → acción → resultado)
 # ---------------------------------------------------------------------
 proyectos:
 
-  - id: proy_agentes_genai_regulado
-    nombre: "Agentes de IA generativa para Control Interno"
-    contexto: "Banco global, área de Control Interno No Financiero (entorno regulado)"
+  - id: proy_agentes_genai
+    nombre: "Agentes de IA generativa en producción para procesos regulatorios"
+    contexto: "Banco global, entorno regulado"
     fuente: "Rol actual, 2023–presente"
-    reto: "Validar calidad de datos, generar reportes regulatorios y detectar anomalías en bases de riesgos y controles consumía gran parte del tiempo de los equipos."
-    accion: "Como AI Wizard designado, diseñó agentes expertos de GenAI combinados con automatizaciones en Python, SQL y Apps Script, e impulsó su adopción con capacitaciones y guías de Prompt Engineering."
-    resultado: "Reducción de hasta 75% en tiempos operativos."
-    tecnologias: ["GenAI", "Python", "SQL", "Apps Script"]
+    reto: "La validación de calidad de datos, los reportes regulatorios y la detección de anomalías en bases de riesgos y controles consumían gran parte del tiempo de los equipos."
+    accion: "Como AI Wizard, diseñó agentes expertos de GenAI combinados con automatizaciones en Python, SQL y Apps Script, e impulsó su adopción con capacitaciones y guías de Prompt Engineering."
+    resultado: "Reducción de hasta 75% en los tiempos operativos de esos procesos y liberación de capacidad operativa (FTEs) para análisis estratégico."
+    tecnologias: ["GenAI", "Prompt Engineering", "Python", "SQL", "Apps Script"]
 
   - id: proy_plataforma_gobierno
-    nombre: "Plataforma centralizada de gestión y gobierno de datos"
+    nombre: "Plataforma centralizada de datos con gobierno y control de accesos"
     contexto: "Banco global, 18 unidades de negocio"
     fuente: "Rol actual, 2023–presente"
     reto: "La Alta Dirección recibía reportes con días de retraso y existía riesgo de fuga de información."
-    accion: "Diseñó una plataforma de web apps con control de accesos por perfil de usuario, trazabilidad y datos centralizados."
+    accion: "Diseñó una plataforma de web apps con control de accesos por perfil, trazabilidad y datos centralizados."
     resultado: "Visibilidad ejecutiva en tiempo real para la Alta Dirección, con trazabilidad completa."
     tecnologias: ["Google Apps Script", "Google Workspace", "Control de accesos por rol"]
+
+  - id: proy_agente_cv
+    nombre: "Agente de CV conversacional en producción (este agente)"
+    contexto: "Proyecto propio para un reto de ingeniería de IA, noviembre 2026"
+    fuente: "Proyecto propio, 2026"
+    reto: "Presentar su trayectoria con un agente confiable, desplegado y operable, sin inventar información."
+    accion: "Construyó un servicio FastAPI asíncrono compatible con la especificación Open Responses (incluye streaming SSE) y tarjeta de agente A2A; desplegado en Cloud Run con Docker y Secret Manager; con fallback automático entre modelos Gemini ante saturación, guardrails contra prompt injection, anonimización verificada por pruebas, logs estructurados y una suite de evaluación."
+    resultado: "Cumple el núcleo HTTP de Open Responses en las pruebas oficiales de conformidad; optimizó latencia (-70%) y costo de tokens (-72%) ajustando el nivel de razonamiento del modelo con evidencia medida."
+    tecnologias: ["Python", "FastAPI", "Gemini", "Open Responses", "A2A", "Docker", "Cloud Run", "Secret Manager", "Cloud Logging", "pytest"]
 
   - id: proy_supply_pandemia
     nombre: "Optimización de cadena de suministro en pandemia"
@@ -163,59 +172,42 @@ proyectos:
     resultado: "Impacto directo en la facturación de costos logísticos y de distribución; KPIs automatizados sin duplicidad ni errores de reporte."
 
   - id: proy_consola_formacion
-    nombre: "Consola de seguimiento y Dashboard Ejecutivo de un programa de formación"
-    contexto: "Organización internacional sin fines de lucro, 13 sedes"
+    nombre: "Consola de seguimiento y dashboard ejecutivo de un programa de formación"
+    contexto: "Actividad voluntaria — organización internacional sin fines de lucro, 13 sedes"
     fuente: "Voluntariado, 2025–presente"
-    reto: "Dirección no tenía visibilidad del alcance ni de la retención de un programa de formación de 4 etapas; la asistencia vivía en registros dispersos."
-    accion: "Construyó una consola operativa (Apps Script) para líderes de sede con acceso filtrado por sede, conectada a una API propia en Cloud Run (Python, 25 rutas) sobre PostgreSQL en Cloud SQL, más un dashboard ejecutivo para dirección."
+    reto: "Dirección no tenía visibilidad del alcance ni de la retención de un programa de 4 etapas; la asistencia vivía en registros dispersos."
+    accion: "Consola operativa con acceso filtrado por sede, conectada a una API propia en Cloud Run (Python, 25 rutas) sobre PostgreSQL en Cloud SQL, más un dashboard ejecutivo para dirección."
     resultado:
-      - "Base histórica de más de 10,700 personas; medición del embudo de retención entre las 4 etapas (3,785 → 2,335 → 1,224 → 443) e identificación del principal cuello de botella."
+      - "Base histórica de más de 10,700 personas; embudo de retención entre etapas (3,785 → 2,335 → 1,224 → 443) e identificación del principal cuello de botella."
       - "Tasa de asistencia activa de 41.2%, por encima de la meta de dirección de 40%."
-      - "Detectó y corrigió un error de lógica de filtrado que mostraba 47 personas con asistencia en lugar de 639: un caso real de calidad de datos que cambió la lectura de dirección."
-    tecnologias: ["Google Apps Script", "Python", "Cloud Run", "PostgreSQL", "Cloud SQL"]
-
-  - id: proy_grupos
-    nombre: "Plataforma de gestión de grupos comunitarios"
-    contexto: "Organización internacional sin fines de lucro, 13 sedes en 4 regiones"
-    fuente: "Voluntariado, 2025–presente"
-    reto: "Coordinar grupos, líderes y mentores en 13 sedes sin una herramienta común."
-    accion: "Desarrolló de punta a punta una web app con 6 roles jerárquicos (voluntario a director), notificaciones automáticas y alertas de mentoreo tras 14 días sin contacto; documentó un handoff técnico completo y un análisis de cobertura de KPIs contra objetivos de dirección."
-    resultado: "Operación estandarizada en 13 sedes y KPIs estratégicos alineados con dirección."
-    tecnologias: ["Google Apps Script", "Google Sheets", "HTML/CSS/JS"]
+      - "Detectó y corrigió un error de lógica de filtrado que mostraba 47 personas con asistencia en lugar de 639."
+    tecnologias: ["Python", "Cloud Run", "PostgreSQL", "Cloud SQL", "Google Apps Script"]
 
   - id: proy_hub_ia
     nombre: "Hub de aplicaciones con módulos de IA (voz y conocimiento)"
-    contexto: "Organización internacional sin fines de lucro"
+    contexto: "Actividad voluntaria — organización internacional sin fines de lucro"
     fuente: "Voluntariado, 2026"
-    reto: "Las aplicaciones internas estaban aisladas y el liderazgo necesitaba un directorio inteligente y una biblioteca de historias."
-    accion: "Diseñó un hub tipo lanzador que integra todas las apps; construyó módulos con captura por voz usando Gemini, datos en BigQuery, Vertex AI y PWA, con control de acceso por rol y políticas de retención de audios (borrado automático a 30 y 90 días)."
+    accion: "Hub tipo lanzador que integra todas las apps; módulos con captura por voz usando Gemini, datos en BigQuery, Vertex AI y PWA, con control de acceso por rol y políticas de retención de audios (borrado automático a 30 y 90 días)."
     resultado: "Backend de directorio, voz e historias completo y probado; piloto con liderazgo antes de abrirlo a las sedes."
-    tecnologias: ["Gemini", "Vertex AI", "BigQuery", "PWA", "Firebase", "Google Cloud"]
+    tecnologias: ["Gemini", "Vertex AI", "BigQuery", "PWA", "Firebase"]
 
-  - id: proy_inteligencia_asistencia
-    nombre: "Dashboard de inteligencia de asistencia semanal"
-    contexto: "Organización internacional sin fines de lucro, todas las sedes"
+  - id: proy_grupos
+    nombre: "Plataforma de gestión de grupos comunitarios multi-sede"
+    contexto: "Actividad voluntaria — 13 sedes en 4 regiones"
     fuente: "Voluntariado, 2025–presente"
-    accion: "Web app de asistencia semanal multi-sede con inicio de sesión SSO, ETL ampliado a segmentos adicionales y un sistema de anotación de semanas atípicas."
-    resultado: "Seguimiento semanal comparable entre sedes, con contexto sobre valores atípicos."
-
-  - id: proy_ai_sprint
-    nombre: "Programa de formación en IA para directores"
-    contexto: "Organización internacional sin fines de lucro"
-    fuente: "Voluntariado, octubre 2026"
-    accion: "Expuso el bloque técnico de la sesión de cierre ('De los dolores a las soluciones'); cada área documentó su contexto operativo en archivos de memoria y operación para trabajar con IA."
-    resultado: "Áreas directivas con su contexto listo para casos de uso de IA."
+    accion: "Web app de punta a punta con 6 roles jerárquicos, notificaciones automáticas y alertas de seguimiento; handoff técnico y análisis de cobertura de KPIs contra objetivos de dirección."
+    resultado: "Operación estandarizada en 13 sedes."
 
 # ---------------------------------------------------------------------
-# HABILIDADES
+# HABILIDADES (solo lo demostrado en experiencia o proyectos)
 # ---------------------------------------------------------------------
 habilidades:
-  ia_y_automatizacion: ["IA Generativa", "Agentes (GPTs/Gems)", "Prompt Engineering", "Gemini / Vertex AI", "Automatización avanzada", "Python", "Google Apps Script"]
-  datos_e_ingenieria: ["SQL avanzado", "ETL/ELT", "Data Governance", "Detección de anomalías", "Scoring", "Diseño de KPIs", "PySpark", "Databricks"]
-  cloud_y_plataforma: ["Google Cloud (Cloud Run, Cloud SQL, BigQuery, Firebase)", "AWS", "Azure", "PostgreSQL"]
-  desarrollo: ["Python", "C# / .NET MVC", "JavaScript", "HTML/CSS", "Web apps"]
-  visualizacion: ["Dashboards ejecutivos", "Tableau", "Looker Studio / Google Sheets"]
-  liderazgo: ["Dirección de iniciativas transversales", "Liderazgo multi-geográfico", "Gestión de stakeholders senior", "Alineación negocio–tecnología", "Reporting ejecutivo", "Gestión del cambio y adopción de IA", "Docencia y capacitación"]
+  liderazgo_y_estrategia: ["Dirección de portafolios de datos e IA", "Liderazgo multi-geográfico", "Gestión de stakeholders senior y Alta Dirección", "Alineación negocio–tecnología", "Gestión del cambio y adopción de IA a escala", "Formación de equipos y docencia ejecutiva"]
+  ia_generativa: ["Agentes de IA generativa en producción", "Prompt Engineering avanzado", "Guardrails y defensa contra prompt injection", "Evaluación de respuestas de LLMs", "Integración multi-modelo con fallback", "Gemini / Vertex AI", "Open Responses y A2A"]
+  ingenieria: ["Python (async, FastAPI, pytest)", "SQL avanzado", "APIs REST", "Docker", "Google Apps Script", "C# / .NET", "JavaScript"]
+  datos: ["ETL/ELT", "Data Governance y calidad de datos", "Detección de anomalías", "Scoring", "Diseño de KPIs", "PySpark", "Databricks"]
+  cloud_y_operacion: ["Google Cloud (Cloud Run, Cloud SQL, BigQuery, Secret Manager, Cloud Logging)", "AWS", "Azure", "PostgreSQL", "Logs estructurados y observabilidad"]
+  visualizacion: ["Dashboards ejecutivos", "Tableau", "Looker Studio"]
 
 # ---------------------------------------------------------------------
 # FORMACIÓN, CERTIFICACIONES Y PREMIOS
@@ -244,6 +236,6 @@ premios:
   - "3.er lugar — Google Polython (2017)"
 
 intereses_profesionales:
-  - "Llevar IA generativa y agentes a producción en entornos regulados."
-  - "Gobierno de datos y calidad como base para IA confiable."
+  - "Liderar equipos que llevan IA generativa y agentes a producción en entornos regulados."
+  - "Evaluación, seguridad y gobierno de soluciones de IA como base de la confianza."
   - "Adopción de IA a escala: cultura, capacitación y casos de uso de alto impacto."

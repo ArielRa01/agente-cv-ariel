@@ -107,7 +107,7 @@ def create_app(settings: Settings | None = None, llm=None) -> FastAPI:
             "version": __version__,
             "url": f"{base}/v1",
             "additionalInterfaces": [{"url": f"{base}/v1", "transport": "open-responses"}],
-            "provider": {"organization": "TalysIA", "url": "https://talysai.com"},
+            "provider": {"organization": "Ariel Ramos Jiménez", "url": "https://linkedin.com/in/arielramosanalytics"},
             "capabilities": {"streaming": True, "pushNotifications": False},
             "defaultInputModes": ["text/plain"],
             "defaultOutputModes": ["text/plain"],
@@ -164,20 +164,22 @@ def create_app(settings: Settings | None = None, llm=None) -> FastAPI:
                                 output=output, usage=usage, body=body, settings=settings,
                                 error=error)
 
-        def done_log(status, result: LLMResult | None, error=None):
+        def done_log(status, result: LLMResult | None, error=None, exc=None):
+            attempts = (result.attempts if result else getattr(exc, "attempts", None)) or []
             log("ERROR" if error else "INFO", event="response", request_id=req_id,
                 response_id=resp_id, status=status, stream=stream, turns=len(turns),
                 latency_ms=round((time.perf_counter() - started) * 1000),
                 input_tokens=result.input_tokens if result else 0,
                 output_tokens=result.output_tokens if result else 0,
-                model=(result.model if result and result.model else settings.gemini_model),
+                model=(result.model if result and result.model else None),
+                models_tried=attempts, fallback_used=len(attempts) > 1,
                 question=question, error=error)
 
         if not stream:
             try:
                 result = await llm.generate(system, turns)
             except Exception as exc:  # noqa: BLE001
-                done_log("failed", None, error=f"{type(exc).__name__}: {exc}")
+                done_log("failed", None, error=f"{type(exc).__name__}: {exc}", exc=exc)
                 return JSONResponse(
                     error_body("model_error", "El modelo no pudo procesar la solicitud."),
                     status_code=500)
@@ -214,7 +216,7 @@ def create_app(settings: Settings | None = None, llm=None) -> FastAPI:
                         yield ev({"type": "response.output_text.delta", **base_kwargs,
                                   "delta": chunk, "logprobs": []})
             except Exception as exc:  # noqa: BLE001
-                done_log("failed", None, error=f"{type(exc).__name__}: {exc}")
+                done_log("failed", None, error=f"{type(exc).__name__}: {exc}", exc=exc)
                 err = {"code": "model_error", "message": "El modelo no pudo procesar la solicitud."}
                 yield ev({"type": "error", **err, "param": None})
                 yield ev({"type": "response.failed", "response": build("failed", [], None, err)})

@@ -207,6 +207,7 @@ def test_limite_de_solicitudes():
 def test_tarjeta_a2a():
     client, _ = make_client()
     card = client.get("/.well-known/agent-card.json").json()
+    assert "talys" not in json.dumps(card).lower()
     assert card["url"].endswith("/v1")
     assert card["capabilities"]["streaming"] is True
     assert 1 <= len(card["skills"][0]["examples"]) <= 8
@@ -221,9 +222,21 @@ def test_telefono_inyectado_en_runtime():
 
 
 @pytest.mark.parametrize("nombre", ["BBVA", "Másvida", "MásVida", "Masvida", "PanAmericano",
-                                    "Eikos", "Top Doctors", "Doctoralia", "ISDI"])
+                                    "Eikos", "Top Doctors", "Doctoralia", "ISDI",
+                                    "TalysIA", "talysai", "Más Vida"])
 def test_guardrail_anonimizacion(nombre):
     """Ningún nombre de empleador puede llegar al modelo."""
     client, llm = make_client()
     client.post("/v1/responses", json={"input": "hola"}, headers=AUTH)
     assert nombre.lower() not in llm.system.lower()
+
+
+
+
+def test_posicionamiento_y_reglas_de_precision():
+    """El prompt v2 incluye las reglas de posicionamiento y de no mezclar cifras."""
+    client, llm = make_client()
+    client.post("/v1/responses", json={"input": "hola"}, headers=AUTH)
+    assert "Data & AI Manager" in llm.system
+    assert "No combines cifras de logros distintos" in llm.system
+    assert "actividades complementarias" in llm.system

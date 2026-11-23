@@ -12,6 +12,8 @@ class Settings:
     gemini_model: str = "gemini-3.5-flash"     # versión fija: un alias puede cambiar sin aviso
     gemini_fallback_models: str = "gemini-3.8-flash"   # separados por coma; se usan ante 429/5xx
     gemini_api_version: str = "v1beta"
+    retry_passes: int = 2             # vueltas completas a la cadena de modelos
+    retry_delay_s: float = 0.8        # espera entre vueltas (saturaciones suelen ser breves)
     agent_api_key: str = ""
     contact_phone: str = ""
     agent_name: str = "ariel-cv-agent"
@@ -31,6 +33,8 @@ class Settings:
             gemini_model=e("GEMINI_MODEL", cls.gemini_model),
             gemini_api_version=e("GEMINI_API_VERSION", cls.gemini_api_version),
             gemini_fallback_models=e("GEMINI_FALLBACK_MODELS", cls.gemini_fallback_models),
+            retry_passes=int(e("RETRY_PASSES", cls.retry_passes)),
+            retry_delay_s=float(e("RETRY_DELAY_S", cls.retry_delay_s)),
             agent_api_key=e("AGENT_API_KEY", ""),
             contact_phone=e("CONTACT_PHONE", ""),
             agent_name=e("AGENT_NAME", cls.agent_name),

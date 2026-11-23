@@ -1,7 +1,13 @@
-"""Cliente de Gemini (SDK oficial google-genai), con salida normal, streaming y
-fallback automático entre modelos ante saturación del proveedor (429 / 5xx)."""
+"""Cliente de Gemini (SDK oficial google-genai) con salida normal, streaming y
+resiliencia ante saturación del proveedor:
+
+1. Recorre una cadena de modelos (principal + respaldos) ante errores 429/5xx.
+2. Si toda la cadena falla, espera brevemente y la recorre otra vez.
+3. Registra cada modelo intentado para observabilidad.
+"""
+import asyncio
 from collections.abc import AsyncIterator
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .config import Settings
 
@@ -18,6 +24,16 @@ class LLMResult:
     input_tokens: int
     output_tokens: int
     model: str = ""
+    attempts: list[str] = field(default_factory=list)
+
+
+class LLMUnavailable(RuntimeError):
+    """Todos los modelos de la cadena fallaron con errores recuperables."""
+
+    def __init__(self, attempts: list[str], last: Exception):
+        super().__init__(f"Modelos no disponibles tras {len(attempts)} intentos: {last}")
+        self.attempts = attempts
+        self.last = last
 
 
 def _usage(meta) -> tuple[int, int]:
@@ -69,9 +85,21 @@ class GeminiLLM:
         from google.genai import types
         return [types.Content(role=r, parts=[types.Part(text=t)]) for r, t in turns]
 
+    def _plan(self):
+        """Secuencia de (vuelta, modelo) a intentar."""
+        for p in range(max(1, self.settings.retry_passes)):
+            for model in self.models:
+                yield p, model
+
     async def generate(self, system: str, turns) -> LLMResult:
+        attempts: list[str] = []
         last_exc: Exception | None = None
-        for model in self.models:
+        current_pass = 0
+        for p, model in self._plan():
+            if p != current_pass:
+                current_pass = p
+                await asyncio.sleep(self.settings.retry_delay_s)
+            attempts.append(model)
             try:
                 resp = await self.client.aio.models.generate_content(
                     model=model, contents=self._contents(turns), config=self._config(system))
@@ -82,8 +110,9 @@ class GeminiLLM:
                 continue
             tin, tout = _usage(resp.usage_metadata)
             return LLMResult(text=(resp.text or "").strip() or FALLBACK_TEXT,
-                             input_tokens=tin, output_tokens=tout, model=model)
-        raise last_exc or RuntimeError("Sin modelos configurados")
+                             input_tokens=tin, output_tokens=tout, model=model,
+                             attempts=attempts)
+        raise LLMUnavailable(attempts, last_exc or RuntimeError("Sin modelos configurados"))
 
     async def stream(self, system: str, turns) -> AsyncIterator[str | LLMResult]:
         """Produce fragmentos de texto (str) y al final un LLMResult con uso de tokens.
@@ -91,8 +120,14 @@ class GeminiLLM:
         El cambio de modelo solo ocurre si la falla llega ANTES del primer fragmento;
         una vez que el usuario empezó a ver texto, no se mezclan respuestas.
         """
+        attempts: list[str] = []
         last_exc: Exception | None = None
-        for model in self.models:
+        current_pass = 0
+        for p, model in self._plan():
+            if p != current_pass:
+                current_pass = p
+                await asyncio.sleep(self.settings.retry_delay_s)
+            attempts.append(model)
             meta, parts, started = None, [], False
             try:
                 stream = await self.client.aio.models.generate_content_stream(
@@ -110,6 +145,7 @@ class GeminiLLM:
                 last_exc = exc
                 continue
             tin, tout = _usage(meta)
-            yield LLMResult(text="".join(parts), input_tokens=tin, output_tokens=tout, model=model)
+            yield LLMResult(text="".join(parts), input_tokens=tin, output_tokens=tout,
+                            model=model, attempts=attempts)
             return
-        raise last_exc or RuntimeError("Sin modelos configurados")
+        raise LLMUnavailable(attempts, last_exc or RuntimeError("Sin modelos configurados"))

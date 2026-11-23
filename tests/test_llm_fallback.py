@@ -6,7 +6,7 @@ import pytest
 from google.genai import errors
 
 from app.config import Settings
-from app.llm import GeminiLLM, LLMResult
+from app.llm import GeminiLLM, LLMResult, LLMUnavailable
 
 SATURADO = errors.ServerError(503, {"error": {"code": 503, "message": "high demand",
                                               "status": "UNAVAILABLE"}})
@@ -39,7 +39,7 @@ class FakeModels:
 
 
 def make_llm(failures):
-    llm = GeminiLLM(Settings(gemini_model="m1", gemini_fallback_models="m2,m3"))
+    llm = GeminiLLM(Settings(gemini_model="m1", gemini_fallback_models="m2,m3", retry_delay_s=0))
     fake = FakeModels(failures)
     llm._client = SimpleNamespace(aio=SimpleNamespace(models=fake))
     return llm, fake
@@ -60,6 +60,7 @@ def test_generate_usa_respaldo_ante_503():
     llm, fake = make_llm({"m1": SATURADO})
     result = asyncio.run(llm.generate("sys", [("user", "hola")]))
     assert result.model == "m2" and fake.calls == ["m1", "m2"]
+    assert result.attempts == ["m1", "m2"]
 
 
 def test_generate_no_reintenta_errores_no_recuperables():
@@ -69,10 +70,11 @@ def test_generate_no_reintenta_errores_no_recuperables():
     assert fake.calls == ["m1"]
 
 
-def test_generate_falla_si_todos_estan_saturados():
-    llm, _ = make_llm({"m1": SATURADO, "m2": SATURADO, "m3": SATURADO})
-    with pytest.raises(errors.ServerError):
+def test_generate_hace_dos_vueltas_y_reporta_intentos():
+    llm, fake = make_llm({"m1": SATURADO, "m2": SATURADO, "m3": SATURADO})
+    with pytest.raises(LLMUnavailable) as info:
         asyncio.run(llm.generate("sys", [("user", "hola")]))
+    assert info.value.attempts == ["m1", "m2", "m3", "m1", "m2", "m3"]
 
 
 def test_stream_usa_respaldo_ante_503():
